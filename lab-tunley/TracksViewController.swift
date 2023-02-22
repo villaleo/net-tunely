@@ -16,6 +16,23 @@ class TracksViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let url = "https://itunes.apple.com/search?term=bad+bunny&attribute=artistTerm&entity=song&media=music"
+        let request = URLRequest(url: .init(string: url)!)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                fatalError("Network error: \(error.localizedDescription)")
+            }
+            guard let data = data else { print("Data is nil"); return }
+            
+            do {
+                let dictionary = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+                print(dictionary ?? .init())
+            } catch {
+                fatalError("Error parsing JSON: \(error.localizedDescription)")
+            }
+        }
+        
+        task.resume()
         tableView.dataSource = self
     }
 
