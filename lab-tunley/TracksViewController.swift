@@ -25,8 +25,13 @@ class TracksViewController: UIViewController, UITableViewDataSource {
             guard let data = data else { print("Data is nil"); return }
             
             do {
-                let dictionary = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-                print(dictionary ?? .init())
+                let decoder: JSONDecoder = .init()
+                let dateFormatter: DateFormatter = .init()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                decoder.dateDecodingStrategy = .formatted(dateFormatter)
+                
+                let response = try decoder.decode(TrackResponse.self, from: data)
+                let tracks = response.results;
             } catch {
                 fatalError("Error parsing JSON: \(error.localizedDescription)")
             }
