@@ -8,7 +8,6 @@
 import UIKit
 
 class TracksViewController: UIViewController, UITableViewDataSource {
-
     var tracks: [Track] = []
 
     @IBOutlet weak var tableView: UITableView!
@@ -32,6 +31,10 @@ class TracksViewController: UIViewController, UITableViewDataSource {
                 
                 let response = try decoder.decode(TrackResponse.self, from: data)
                 let tracks = response.results;
+                DispatchQueue.main.async {
+                    self.tracks = tracks
+                    self.tableView.reloadData()
+                }
             } catch {
                 fatalError("Error parsing JSON: \(error.localizedDescription)")
             }
