@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Nuke
 
 class AlbumsViewController: UIViewController {
+    @IBOutlet weak var collectioinView: UICollectionView!
     var albums: [Album] = []
     
     override func viewDidLoad() {
@@ -24,7 +26,10 @@ class AlbumsViewController: UIViewController {
             let decoder = JSONDecoder()
             do {
                 let response = try decoder.decode(AlbumsSearchResponse.self, from: data)
-                self.albums = response.results
+                DispatchQueue.main.async {
+                    self.albums = response.results
+                    self.collectioinView.reloadData()
+                }
             } catch {
                 fatalError("Parse error: \(error.localizedDescription)")
             }
@@ -32,5 +37,24 @@ class AlbumsViewController: UIViewController {
         }
         
         task.resume()
+        collectioinView.dataSource = self
+    }
+}
+
+// MARK: Conform AlbumsViewController to UICollectionViewDataSource
+extension AlbumsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        albums.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AlbumCell.identifier,
+            for: indexPath
+        ) as! AlbumCell
+        let album = albums[indexPath.item]
+        let imageURL = album.artworkUrl100
+        Nuke.loadImage(with: imageURL, into: cell.albumImageView)
+        return cell
     }
 }
