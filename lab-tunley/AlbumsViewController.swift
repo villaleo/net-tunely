@@ -17,27 +17,43 @@ class AlbumsViewController: UIViewController {
         
         let url = "https://itunes.apple.com/search?term=bad+bunny&attribute=artistTerm&entity=album&media=music";
         let request = URLRequest(url: .init(string: url)!)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             if let error = error {
                 fatalError("Network error: \(error.localizedDescription)")
             }
-            guard let data = data else { return }
-            
-            let decoder = JSONDecoder()
-            do {
-                let response = try decoder.decode(AlbumsSearchResponse.self, from: data)
-                DispatchQueue.main.async {
-                    self.albums = response.results
-                    self.collectioinView.reloadData()
-                }
-            } catch {
-                fatalError("Parse error: \(error.localizedDescription)")
-            }
-            print("Closure end")
+            try! self?.unserializeAndPutIntoCollectionView(data)
         }
         
         task.resume()
         collectioinView.dataSource = self
+        updateCollectionViewLayout()
+    }
+    
+    // MARK: Private helpers
+    private func updateCollectionViewLayout() {
+        let layout = collectioinView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
+        let numberOfColumns: CGFloat = 3
+        let width = (
+            collectioinView.bounds.width - layout.minimumInteritemSpacing * (numberOfColumns - 1)
+        ) / numberOfColumns
+        layout.itemSize = CGSize(width: width, height: width)
+    }
+    
+    private func unserializeAndPutIntoCollectionView(_ data: Data?) throws {
+        guard let data = data else { return }
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(AlbumsSearchResponse.self, from: data)
+            DispatchQueue.main.async {
+                self.albums = response.results
+                self.collectioinView.reloadData()
+            }
+        } catch {
+            fatalError("Parse error: \(error.localizedDescription)")
+        }
     }
 }
 
