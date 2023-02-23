@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -259,8 +260,50 @@
                     <view key="view" contentMode="scaleToFill" id="LR4-AX-VaG">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Drz-6t-PVa">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OqB-ty-iHk">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="wVJ-Pr-YF5" customClass="AlbumCell" customModule="lab_tunley" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bs2-Fi-2Is">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iWW-ou-JuQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="iWW-ou-JuQ" firstAttribute="leading" secondItem="bs2-Fi-2Is" secondAttribute="leading" id="ZbV-E1-VMW"/>
+                                                <constraint firstItem="iWW-ou-JuQ" firstAttribute="top" secondItem="bs2-Fi-2Is" secondAttribute="top" id="bzt-zt-pRJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="iWW-ou-JuQ" secondAttribute="trailing" id="d3w-TZ-wDF"/>
+                                                <constraint firstAttribute="bottom" secondItem="iWW-ou-JuQ" secondAttribute="bottom" id="puZ-xm-5oB"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="albumImageView" destination="iWW-ou-JuQ" id="EQj-2i-She"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Jj0-hP-8Fk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Drz-6t-PVa" firstAttribute="top" secondItem="Jj0-hP-8Fk" secondAttribute="top" id="8T3-u6-A9o"/>
+                            <constraint firstItem="Jj0-hP-8Fk" firstAttribute="trailing" secondItem="Drz-6t-PVa" secondAttribute="trailing" id="QPj-LH-uHr"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Drz-6t-PVa" secondAttribute="bottom" id="T7Q-YL-ua1"/>
+                            <constraint firstItem="Drz-6t-PVa" firstAttribute="leading" secondItem="Jj0-hP-8Fk" secondAttribute="leading" id="hJP-b9-Bwj"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Albums" id="txY-zB-pzT"/>
                 </viewController>
