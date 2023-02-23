@@ -9,7 +9,6 @@ import UIKit
 import Nuke
 
 class DetailViewController: UIViewController {
-
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!
 
@@ -30,15 +29,9 @@ class DetailViewController: UIViewController {
         albumLabel.text = track.collectionName
         genreLabel.text = track.primaryGenreName
 
-        // Create a date formatter to style our date and convert it to a string
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         releaseDateLabel.text = dateFormatter.string(from: track.releaseDate)
-
-        // Use helper method to convert milliseconds into `mm:ss` string format
         durationLabel.text = formattedTrackDuration(with: track.trackTimeMillis)
-
     }
-
-
 }
